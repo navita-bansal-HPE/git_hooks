@@ -1,33 +1,13 @@
-"""
-This module provides functionality to list all installed packages and their versions.
+"""To add 2 numbers."""
 
-Functions:
-- list_installed_packages: Retrieves and prints all installed packages with their versions.
+number1 = input("First number: ")
+number2 = input("\nSecond number: ")
 
-Usage:
-Run this module as a script to print the list of installed packages.
-"""
-import importlib.metadata
+# Adding two numbers
+# User might also enter float numbers
+sum = float(number1) + float(number2)
 
-
-def list_installed_packages():
-    """
-    List all installed packages and their versions.
-
-    This function retrieves all installed packages using `importlib.metadata.distributions`,
-    sorts them, and prints each package with its version.
-
-    Returns:
-    None
-    """
-    installed_packages = importlib.metadata.distributions()
-    sorted_packages = sorted([f"{pkg.metadata['Name']}=={pkg.version}" for pkg in installed_packages])
-
-    print("Installed packages:")
-    for package in sorted_packages:
-        print(package)
-        print("package_name.")
-
-
-if __name__ == "__main__":
-    list_installed_packages()
+# Display the sum
+# will print value in float
+print("The sum of {0} and {1} is {2}" .format(number1,
+                                            number2, sum))

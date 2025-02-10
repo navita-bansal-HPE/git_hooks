@@ -25,4 +25,12 @@ chmod +x ../.git/hooks/*
 git config --local core.hooksPath .git/hooks
 git config --local commit.template .git/hooks/.gitmessage
 
+# Install required Python tools
+echo "Installing required Python tools..."
+pip install --quiet autoflake isort pylint pydocstyle black || {
+    echo "Error: Failed to install one or more tools. Please ensure pip is installed and available."
+    exit 1
+}
+
+
 echo "Git hooks and configurations have been successfully set up."
