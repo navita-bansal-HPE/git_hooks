@@ -57,7 +57,7 @@ else
 fi
 
 # Get the list of changed Python files
-FILES=$(git diff origin/mainline...$(git log -1 --format='%H') --name-only '*.py')
+FILES=$(git diff origin/main...$(git log -1 --format='%H') --name-only '*.py')
 
 # Allow non-ASCII filenames if explicitly enabled
 allownonascii=$(git config --type=bool hooks.allownonascii)
