@@ -22,7 +22,7 @@ cp -r "$hooks_directory/." ../.git/hooks/
 chmod +x ../.git/hooks/*
 
 # Update Git configuration
-git config --local core.hooksPath ../.git/hooks
-git config --local commit.template ../.git/hooks/.gitmessage
+git config --local core.hooksPath .git/hooks
+git config --local commit.template .git/hooks/.gitmessage
 
 echo "Git hooks and configurations have been successfully set up."
