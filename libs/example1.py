@@ -1,10 +1,9 @@
-from ..Library.app_api import ActivateAppApi
 
 class InventoryApiClient:
     def __init__(self, use_empty_header=False):
         self.host = "https://qxrbiyv22g.execute-api.ap-south-1.amazonaws.com/prod"
         self.client_secret = "9lAp03FjIb6eYjflO8x9U3rSteJnk1VSaVVs8BUp"
-        self.app_api_object = ActivateAppApi(self.host, self.client_secret, use_empty_header)
+        #self.app_api_object = ActivateAppApi(self.host, self.client_secret, use_empty_header)
 
 
     def get_health_helper(self):
