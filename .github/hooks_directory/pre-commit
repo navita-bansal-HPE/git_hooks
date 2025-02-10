@@ -48,7 +48,7 @@
 #   ```
 # - The hook will run automatically, applying linting and performing checks before finalizing the commit.
 #
-
+echo "Pre-commit hook is running!"
 if git rev-parse --verify HEAD >/dev/null 2>&1; then
     against=HEAD
 else
