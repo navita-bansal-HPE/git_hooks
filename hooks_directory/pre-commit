@@ -1,0 +1,128 @@
+#!/bin/sh
+#
+# Pre-commit Hook Script
+# ----------------------
+# This script is designed to run automatically before a commit is finalized in a Git repository.
+# It enforces coding standards and checks for common issues in Python files that are staged for commit.
+#
+# **Purpose:**
+# - Ensure Python files conform to linting and formatting standards.
+# - Prevent commits with unused imports, poorly formatted code, or common code smells.
+# - Identify and reject files with whitespace errors or non-ASCII filenames (if not explicitly allowed).
+#
+# **Checks Performed:**
+# 1. Identifies staged Python files for comparison against the `origin/mainline` branch.
+# 2. Ensures no non-ASCII filenames are added (unless explicitly enabled via Git configuration).
+# 3. Runs `autoflake` to remove unused imports and variables.
+# 4. Uses `isort` to organize imports with the Black profile.
+# 5. Executes `pylint` to check for specific code quality issues (e.g., missing docstrings, trailing newlines).
+# 6. Verifies there are no whitespace errors in the staged files.
+#
+# **How to Enable This Hook:**
+# 1. Save this script as `pre-commit` in the `.git/hooks/` directory of your Git repository.
+# 2. Make the script executable:
+#    ```bash
+#    chmod +x .git/hooks/pre-commit
+#    ```
+# 3. Optionally, customize the enabled `pylint` checks or linting rules as needed for your project.
+#
+# **Behavior:**
+# - If any check fails, the commit will be stopped, and an error message will be displayed.
+# - If all checks pass, the commit will proceed successfully.
+#
+# **Notes:**
+# - Install the following Python tools for this hook to work:
+#   - `autoflake`
+#   - `isort`
+#   - `pylint`
+# - This script assumes that your Git repository follows the standard `origin/mainline` branch structure.
+#
+# Example Usage:
+# - Add or modify Python files and stage them for commit:
+#   ```bash
+#   git add <file.py>
+#   ```
+# - Commit the changes:
+#   ```bash
+#   git commit -m "Commit message"
+#   ```
+# - The hook will run automatically, applying linting and performing checks before finalizing the commit.
+#
+
+if git rev-parse --verify HEAD >/dev/null 2>&1; then
+    against=HEAD
+else
+    # Initial commit: compare against an empty tree object
+    against=$(git hash-object -t tree /dev/null)
+fi
+
+# Get the list of changed Python files
+FILES=$(git diff origin/mainline...$(git log -1 --format='%H') --name-only '*.py')
+
+# Allow non-ASCII filenames if explicitly enabled
+allownonascii=$(git config --type=bool hooks.allownonascii)
+
+# Redirect output to stderr
+exec 1>&2
+
+# Check for non-ASCII filenames unless explicitly allowed
+if [ "$allownonascii" != "true" ] &&
+   test $(git diff --cached --name-only --diff-filter=A -z $against | LC_ALL=C tr -d '[ -~]\0' | wc -c) != 0; then
+    cat <<\EOF
+Error: Attempt to add a file with a non-ASCII filename.
+
+To allow this, run:
+  git config hooks.allownonascii true
+EOF
+    exit 1
+fi
+
+# Exit if no Python files are changed
+if [ -z "$FILES" ]; then
+    exit 0
+fi
+
+echo "Running linting checks for Python files: $FILES"
+
+# Run autoflake to remove unused imports and variables
+autoflake \
+    --remove-all-unused-imports \
+    --recursive \
+    --remove-unused-variables \
+    --in-place \
+    --exclude=__init__.py \
+    $FILES || {
+    echo "Error: autoflake failed."
+    exit 1
+}
+
+# Run isort to organize imports with the Black profile
+isort --profile black $FILES || {
+    echo "Error: isort failed."
+    exit 1
+}
+
+# Run pylint to check for issues
+pylint \
+    --disable=all \
+    --enable=empty-docstring,missing-function-docstring,function-redefined,trailing-newlines,missing-module-docstring \
+    --min-similarity-lines=20 \
+    $FILES || {
+    echo "Error: pylint found issues."
+    exit 1
+}
+
+# Run pydocstyle to check docstring conventions
+pydocstyle $FILES || {
+    echo "Error: pydocstyle found docstring issues."
+    exit 1
+}
+
+# Check for whitespace errors in staged files
+git diff-index --check --cached $against -- || {
+    echo "Error: Whitespace issues detected."
+    exit 1
+}
+
+echo "Pre-commit checks passed successfully."
+exit 0
