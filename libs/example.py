@@ -5,11 +5,11 @@ def add_two_numbers(num1, num2):
     """Add two numbers and return their sum.
 
     Args:
-        num1 (float): The first number.
-        num2 (float): The second number.
+    num1 (float): The first number.
+    num2 (float): The second number.
 
     Returns:
-        float: The sum of num1 and num2.
+    float: The sum of num1 and num2.
     """
     return num1 + num2
 
