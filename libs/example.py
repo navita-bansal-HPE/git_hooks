@@ -1,4 +1,4 @@
-"""To add 2 numbers."""
+"""To add 2 numbers"""
 
 number1 = input("First number: ")
 number2 = input("\nSecond number: ")
