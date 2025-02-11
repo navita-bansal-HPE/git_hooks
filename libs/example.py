@@ -9,7 +9,7 @@ def add_two_numbers(num1, num2):
     num2 (float): The second number.
 
     Returns:
-    float: The sum of num1 and num2.
+    float: The addition of num1 and num2.
     """
     return num1 + num2
 
