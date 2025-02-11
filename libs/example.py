@@ -1,7 +1,7 @@
-"""To add 2 numbers"""
+"""To add 2 numbers."""
 
 number1 = input("First number: ")
-number2 = input("\nSecond number: ")
+number2 = input("\nSecond number ")
 
 # Adding two numbers
 # User might also enter float numbers
