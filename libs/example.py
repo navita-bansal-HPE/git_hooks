@@ -15,7 +15,7 @@ def add_two_numbers(num1, num2):
 
 if __name__ == "__main__":
     # Prompt the user for input
-    number1 = float(input("First number "))
+    number1 = float(input("First number: "))
     number2 = float(input("\nSecond number: "))
 
     # Call the function to calculate the sum
