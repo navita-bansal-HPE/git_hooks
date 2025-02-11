@@ -13,7 +13,6 @@ def add_two_numbers(num1, num2):
     """
     return num1 + num2
 
-
 if __name__ == "__main__":
     # Prompt the user for input
     number1 = float(input("First number: "))
