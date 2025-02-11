@@ -19,13 +19,8 @@
 # 6. Verifies there are no whitespace errors in the staged files.
 #
 # **How to Enable This Hook:**
-# 1. Save this script as `pre-commit` in the `.git/hooks/` directory of your Git repository.
-# 2. Make the script executable:
-#    ```bash
-#    chmod +x .git/hooks/pre-commit
-#    ```
-# 3. Optionally, customize the enabled `pylint` checks or linting rules as needed for your project.
-#
+# - Run the `setup_hooks.sh` script to install all necessary tools and configure Git hooks automatically.
+# - This script ensures all required dependencies (`autoflake`, `isort`, `pylint`, and `pydocstyle`) are installed.
 # **Behavior:**
 # - If any check fails, the commit will be stopped, and an error message will be displayed.
 # - If all checks pass, the commit will proceed successfully.
