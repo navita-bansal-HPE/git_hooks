@@ -21,6 +21,7 @@
 # **How to Enable This Hook:**
 # - Run the `setup_hooks.sh` script to install all necessary tools and configure Git hooks automatically.
 # - This script ensures all required dependencies (`autoflake`, `isort`, `pylint`, and `pydocstyle`) are installed.
+#
 # **Behavior:**
 # - If any check fails, the commit will be stopped, and an error message will be displayed.
 # - If all checks pass, the commit will proceed successfully.

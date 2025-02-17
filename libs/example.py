@@ -4,7 +4,7 @@
 def add_two_numbers(num1, num2):
     """Add two numbers and return their sum.
 
-    Args:
+Args:
     num1 (float): The first number.
     num2 (float): The second number.
 
